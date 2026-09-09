@@ -9,3 +9,6 @@
 # https://docs.deno.com/runtime/reference/cli/coverage/
 coverage/
 *.lcov
+
+# HAR capture — 実 Cookie (NID 等) と reCAPTCHA トークンを含むため公開しない
+.har/
