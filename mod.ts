@@ -3,38 +3,19 @@
  *
  * ブラウザ自動化も外部依存も不要で、`fetch` + 文字列処理 + `JSON.parse` だけで動く。
  *
- * ## 使い方
- *
  * ```ts
  * import { GTrends } from "@uyu/gtrends";
  *
  * const gt = new GTrends({ hl: "ja", tz: -540, geo: "JP" });
  *
- * // 急上昇トレンド (Cookie 不要・最も安定)
- * const trends = await gt.trendingNow();
- *
- * // 時系列
- * const series = await gt.interestOverTime(["youtube"], { time: "today 12-m" });
+ * await gt.trendingNow();                    // 急上昇 (Cookie 不要)
+ * await gt.interestOverTime(["youtube"]);    // 時系列
  * ```
  *
- * ## 2 系統が同居していることに注意
+ * 急上昇系 (`batchexecute`) は Cookie 不要でレート制限も緩く、
+ * Explore 系 (`/trends/api/*`) がブロックされていても動き続ける。
  *
- * Google Trends には性質の異なる 2 つの API が同居している。
- *
- * | | Explore 系 | Trending 系 |
- * | --- | --- | --- |
- * | エンドポイント | `/trends/api/*` | `/_/TrendsUi/data/batchexecute` |
- * | 認証 | **`NID` Cookie が必要** | 不要 |
- * | レート制限 | 厳しい (容量 90〜100 件のバケット) | 緩い |
- * | XSSI プレフィックス | 5 バイト or 6 バイト | 6 バイト (LF 2 個) |
- *
- * **片方がブロックされても、もう片方は動き続ける。**
- *
- * ## 注意
- *
- * これは Google の**非公開の内部 API** を利用しており、予告なく変更・廃止されうる。
- * 大量取得が要件なら BigQuery 公開データセット `bigquery-public-data.google_trends`、
- * Google Trends 公式 API、ライセンス済みの商用プロバイダを検討すること。
+ * Google の非公開の内部 API を利用しているため、予告なく変更・廃止されうる。
  *
  * @module
  */
