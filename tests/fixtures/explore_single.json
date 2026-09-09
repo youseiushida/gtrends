@@ -1,0 +1,223 @@
+{
+  "widgets": [
+    {
+      "request": {
+        "time": "2025-09-09 2026-09-09",
+        "resolution": "WEEK",
+        "locale": "en-US",
+        "comparisonItem": [
+          {
+            "geo": {
+              "country": "JP"
+            },
+            "complexKeywordsRestriction": {
+              "keyword": [
+                {
+                  "type": "BROAD",
+                  "value": "youtube"
+                }
+              ]
+            }
+          }
+        ],
+        "requestOptions": {
+          "property": "",
+          "backend": "IZG",
+          "category": 0
+        },
+        "userConfig": {
+          "userType": "USER_TYPE_SCRAPER"
+        }
+      },
+      "lineAnnotationText": "Search interest",
+      "bullets": [
+        {
+          "text": "youtube"
+        }
+      ],
+      "showLegend": false,
+      "showAverages": false,
+      "helpDialog": {
+        "title": "Interest over time",
+        "content": "Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. A score of 0 means there was not enough data for this term."
+      },
+      "token": "ANI_2wMAAAAAaqKm93FRIQG8Rw6AmOAK1Z3-giRsMlD0",
+      "id": "TIMESERIES",
+      "type": "fe_line_chart",
+      "title": "Interest over time",
+      "template": "fe",
+      "embedTemplate": "fe_embed",
+      "version": "1",
+      "isLong": true,
+      "isCurated": false
+    },
+    {
+      "request": {
+        "geo": {
+          "country": "JP"
+        },
+        "comparisonItem": [
+          {
+            "time": "2025-09-09 2026-09-09",
+            "complexKeywordsRestriction": {
+              "keyword": [
+                {
+                  "type": "BROAD",
+                  "value": "youtube"
+                }
+              ]
+            }
+          }
+        ],
+        "resolution": "REGION",
+        "locale": "en-US",
+        "requestOptions": {
+          "property": "",
+          "backend": "IZG",
+          "category": 0
+        },
+        "userConfig": {
+          "userType": "USER_TYPE_SCRAPER"
+        }
+      },
+      "geo": "JP",
+      "resolution": "provinces",
+      "searchInterestLabel": "Search interest",
+      "displayMode": "regions",
+      "helpDialog": {
+        "title": "Interest by subregion",
+        "content": "See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular. A value of 0 indicates a location where there was not enough data for this term. <p><p> <b>Note:</b> A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for \"bananas\" will get twice the score of a giant country where only 40% of the queries are for \"bananas\".",
+        "url": "https://support.google.com/trends/answer/4355212"
+      },
+      "color": "PALETTE_COLOR_1",
+      "index": 0,
+      "bullet": "youtube",
+      "token": "ANI_2wMAAAAAaqKm97JW1uQYG5LEa-EMlfh8QAyOxAGK",
+      "id": "GEO_MAP",
+      "type": "fe_geo_chart_explore",
+      "title": "Interest by subregion",
+      "template": "fe",
+      "embedTemplate": "fe_embed",
+      "version": "1",
+      "isLong": true,
+      "isCurated": false
+    },
+    {
+      "request": {
+        "restriction": {
+          "geo": {
+            "country": "JP"
+          },
+          "time": "2025-09-09 2026-09-09",
+          "originalTimeRangeForExploreUrl": "today 12-m",
+          "complexKeywordsRestriction": {
+            "keyword": [
+              {
+                "type": "BROAD",
+                "value": "youtube"
+              }
+            ]
+          }
+        },
+        "keywordType": "ENTITY",
+        "metric": [
+          "TOP",
+          "RISING"
+        ],
+        "trendinessSettings": {
+          "compareTime": "2024-09-08 2025-09-08"
+        },
+        "requestOptions": {
+          "property": "",
+          "backend": "IZG",
+          "category": 0
+        },
+        "language": "en",
+        "userCountryCode": "JP",
+        "userConfig": {
+          "userType": "USER_TYPE_SCRAPER"
+        }
+      },
+      "helpDialog": {
+        "title": "Related topics",
+        "content": "Users searching for your term also searched for these topics. You can view by the following metrics: <p>* <b>Top</b> - The most popular topics. Scoring is on a relative scale where a value of 100 is the most commonly searched topic and a value of 50 is a topic searched half as often as the most popular term, and so on. <p>* <b>Rising</b> - Related topics with the biggest increase in search frequency since the last time period. Results marked \"Breakout\" had a tremendous increase, probably because these topics are new and had few (if any) prior searches."
+      },
+      "color": "PALETTE_COLOR_1",
+      "keywordName": "youtube",
+      "token": "ANI_2wMAAAAAaqKm9xBgHJyDuks-zSB2Pa7kWI1vdt4G",
+      "id": "RELATED_TOPICS",
+      "type": "fe_related_searches",
+      "title": "Related topics",
+      "template": "fe",
+      "embedTemplate": "fe_embed",
+      "version": "1",
+      "isLong": false,
+      "isCurated": false
+    },
+    {
+      "request": {
+        "restriction": {
+          "geo": {
+            "country": "JP"
+          },
+          "time": "2025-09-09 2026-09-09",
+          "originalTimeRangeForExploreUrl": "today 12-m",
+          "complexKeywordsRestriction": {
+            "keyword": [
+              {
+                "type": "BROAD",
+                "value": "youtube"
+              }
+            ]
+          }
+        },
+        "keywordType": "QUERY",
+        "metric": [
+          "TOP",
+          "RISING"
+        ],
+        "trendinessSettings": {
+          "compareTime": "2024-09-08 2025-09-08"
+        },
+        "requestOptions": {
+          "property": "",
+          "backend": "IZG",
+          "category": 0
+        },
+        "language": "en",
+        "userCountryCode": "JP",
+        "userConfig": {
+          "userType": "USER_TYPE_SCRAPER"
+        }
+      },
+      "helpDialog": {
+        "title": "Related queries",
+        "content": "Users searching for your term also searched for these queries. You can sort by the following metrics: <p>* <b>Top</b> - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often as the most popular query, and so on. <p>* <b>Rising</b> - Queries with the biggest increase in search frequency since the last time period. Results marked \"Breakout\" had a tremendous increase, probably because these queries are new and had few (if any) prior searches.",
+        "url": "https://support.google.com/trends/answer/4355000"
+      },
+      "color": "PALETTE_COLOR_1",
+      "keywordName": "youtube",
+      "token": "ANI_2wMAAAAAaqKm9-VNZuMdv2gO1APUZqlsW-HhdBhW",
+      "id": "RELATED_QUERIES",
+      "type": "fe_related_searches",
+      "title": "Related queries",
+      "template": "fe",
+      "embedTemplate": "fe_embed",
+      "version": "1",
+      "isLong": false,
+      "isCurated": false
+    }
+  ],
+  "keywords": [
+    {
+      "keyword": "youtube",
+      "name": "youtube",
+      "type": "Search term"
+    }
+  ],
+  "timeRanges": [
+    "Past 12 months"
+  ],
+  "shareText": "Explore search interest for youtube by time, location and popularity on Google Trends",
+  "shouldShowMultiHeatMapMessage": false
+}

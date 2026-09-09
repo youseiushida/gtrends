@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+          cache: true
+
+      - name: Format
+        run: deno fmt --check
+
+      # deno.json に name + version + exports が揃っていると jsr lint タグが自動で有効になり、
+      # no-slow-types (JSR 公開の必須条件) がここで検出される。
+      - name: Lint
+        run: deno lint
+
+      - name: Type check
+        run: deno check mod.ts
+
+      # ネットワーク権限を与えない。モックの漏れがあれば PermissionDenied で落ちる。
+      - name: Unit tests (no network)
+        run: deno test --allow-read src/ tests/
+
+      # version を上げる前に slow types と含有ファイルの問題を全部出す。
+      - name: Publish dry run
+        run: deno publish --dry-run

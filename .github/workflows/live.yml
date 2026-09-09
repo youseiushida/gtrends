@@ -1,0 +1,89 @@
+name: Live integration
+
+# Google Trends は非公開の内部 API なので、予告なくワイヤ仕様が変わる。
+# 1 日おきに実際に叩いて回帰を検知する。
+on:
+  # ★cron の "0 3 */2 * *" は「厳密な 1 日おき」にならない。
+  #   日フィールドの範囲 (1-31) が毎月 1 日にリセットされるため、
+  #   31 日ある月では 31 日 → 翌月 1 日が連日実行になってしまう。
+  #   そこで毎日起動し、ジョブ側で偶数日だけ通す。
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "隔日ゲートを無視して実行する"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every-other-day gate
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif [ $(( $(date -u +%s) / 86400 % 2 )) -eq 0 ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "奇数日なのでスキップします (厳密な隔日実行のため)"
+          fi
+
+      - if: steps.gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - if: steps.gate.outputs.run == 'true'
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+          cache: true
+
+      # まずネットワーク不要のテストを走らせる。
+      # ここが赤ならパーサの回帰、緑なのに次が赤ならワイヤ仕様の変更かレート制限、と切り分けられる。
+      - name: Unit tests (baseline)
+        id: unit
+        if: steps.gate.outputs.run == 'true'
+        run: deno test --allow-read src/ tests/
+
+      # 宛先を trends.google.com に限定する。意図しないホストを叩いていないことを機械的に保証する。
+      # 並列にすると 429 から 302 ブロックに昇格するので --parallel は絶対に付けない。
+      - name: Live integration tests
+        id: live
+        if: steps.gate.outputs.run == 'true'
+        run: deno test --allow-net=trends.google.com --allow-read --allow-env live/
+
+      - name: Open an issue on failure
+        if: failure() && steps.gate.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          UNIT: ${{ steps.unit.outcome }}
+          LIVE: ${{ steps.live.outcome }}
+        run: |
+          # 同じ原因で issue が増え続けないよう、既存の open issue があれば追記に留める。
+          EXISTING=$(gh issue list --label live-failure --state open --limit 1 --json number --jq '.[0].number')
+
+          if [ "$UNIT" = "failure" ]; then
+            DIAGNOSIS="**パーサの回帰**の可能性が高いです (ネットワーク不要のテストが落ちています)。"
+          else
+            DIAGNOSIS="ネットワーク不要のテストは緑なので、**Google 側のワイヤ仕様変更**か**レート制限**の可能性が高いです。検証台帳に SKIP が並んでいればレート制限です。"
+          fi
+
+          BODY=$(printf '%s\n\n%s\n\n- unit: %s\n- live: %s\n- run: %s\n' \
+            "ライブ統合テストが失敗しました。" "$DIAGNOSIS" "$UNIT" "$LIVE" "$RUN_URL")
+
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create \
+              --title "Live integration failed ($(date -u +%Y-%m-%d))" \
+              --label live-failure \
+              --body "$BODY"
+          fi

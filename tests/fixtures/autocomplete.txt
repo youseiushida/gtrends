@@ -1,0 +1,2 @@
+)]}',
+{"default":{"topics":[{"mid":"/g/1ymzszlpz","title":"Nintendo","type":"Topic"},{"mid":"/g/11hf00yspg","title":"Nintendo Switch","type":"Video game"},{"mid":"/m/059wk","title":"Sunny Optical","type":"Video game company"},{"mid":"/m/028jm0","title":"Nintendo DS","type":"Video game console"},{"mid":"/m/05h5m","title":"Nintendo 64","type":"Video game console"}]}}

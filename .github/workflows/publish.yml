@@ -1,0 +1,36 @@
+name: Publish to JSR
+
+# deno.json の version が既に公開済みなら deno publish は何もせず成功する。
+# したがって main への push で回しっぱなしにでき、version を上げた変更がマージされた
+# 瞬間だけ実際に公開される。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # OIDC の ID トークンを JSR 認証に使う。これが無いとトークンレス公開ができない。
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+          cache: true
+
+      - name: Verify before publishing
+        run: |
+          deno fmt --check
+          deno lint
+          deno check mod.ts
+          deno test --allow-read src/ tests/
+
+      # 事前に jsr.io のパッケージ Settings で GitHub リポジトリを Link しておくこと。
+      # Link していないと OIDC 公開は失敗する。
+      - name: Publish
+        run: deno publish
