@@ -6,7 +6,7 @@ Google Trends の薄いラッパー (Deno / TypeScript)。
 [実測調査](./live_integration/README.md)に基づいて実装しました。
 
 ```ts
-import { GTrends } from "@youseiushida/gtrends";
+import { GTrends } from "@uyu/gtrends";
 
 const gt = new GTrends({ hl: "ja", tz: -540, geo: "JP" });
 
@@ -35,7 +35,7 @@ const related = await gt.relatedQueries(["youtube"]);     // 関連キーワー�
 ## インストール
 
 ```sh
-deno add jsr:@youseiushida/gtrends
+deno add jsr:@uyu/gtrends
 ```
 
 必要な権限は `--allow-net=trends.google.com` だけです。
@@ -45,7 +45,7 @@ deno add jsr:@youseiushida/gtrends
 ### 急上昇 (Cookie 不要・最も安定)
 
 ```ts
-import { GTrends } from "@youseiushida/gtrends";
+import { GTrends } from "@uyu/gtrends";
 const gt = new GTrends({ geo: "JP" });
 
 // RPC 経由。時間窓とニュース展開数を指定できる (最も情報量が多い)
@@ -64,7 +64,7 @@ const c = await gt.trendingRss("JP");
 ### Explore 系 (`NID` Cookie が必要)
 
 ```ts
-import { GTrends } from "@youseiushida/gtrends";
+import { GTrends } from "@uyu/gtrends";
 const gt = new GTrends({ geo: "JP" });
 
 const series = await gt.interestOverTime(["youtube"], { time: "today 12-m" });
@@ -78,7 +78,7 @@ Cookie の取得は自動です。`explore` が配る token は 24 時間有効�
 ### メタデータ
 
 ```ts
-import { GTrends } from "@youseiushida/gtrends";
+import { GTrends } from "@uyu/gtrends";
 const gt = new GTrends();
 
 const topics = await gt.autocomplete("nintendo");  // キーワード → mid (常に 5 件)

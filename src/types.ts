@@ -1,5 +1,5 @@
 /**
- * `@youseiushida/gtrends` の公開型。
+ * `@uyu/gtrends` の公開型。
  *
  * JSR の slow types 制約により、公開 API に現れる構造はすべてここで名前付き型として定義し、
  * 関数側はインライン構造型を返さない。

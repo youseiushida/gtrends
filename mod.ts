@@ -1,12 +1,12 @@
 /**
- * `@youseiushida/gtrends` — Google Trends の薄いラッパー (Deno)。
+ * `@uyu/gtrends` — Google Trends の薄いラッパー (Deno)。
  *
  * ブラウザ自動化も外部依存も不要で、`fetch` + 文字列処理 + `JSON.parse` だけで動く。
  *
  * ## 使い方
  *
  * ```ts
- * import { GTrends } from "@youseiushida/gtrends";
+ * import { GTrends } from "@uyu/gtrends";
  *
  * const gt = new GTrends({ hl: "ja", tz: -540, geo: "JP" });
  *
